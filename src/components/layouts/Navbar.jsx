@@ -2,8 +2,21 @@ import { Link } from 'react-router-dom';
 import classes from './Navbar.module.css';
 import bars from '../../resources/bars.png';
 import close from '../../resources/close.png';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 function NavBar(){
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+   function logoutHandler(){
+    localStorage.clear();
+     setIsLoggedIn(false);
+     alert("logged out successfully")
+     window.location.href = ".";
+   }
+    
+    
+      useEffect(()=>{
+        if(localStorage.getItem("isLoggedIn")==="1")
+        setIsLoggedIn(true);
+      },[]);
     const navHidden = useRef(null);
     const [isNavVisible, setNavIsVisible] = useState(false);
     function navBarOpener(){
@@ -16,23 +29,37 @@ function NavBar(){
     return (
         <header className={classes.header}>
           <div className={classes.logo}>
-            <Link to='/'>MovieKnight</Link>
+            <Link to='/'>MoviesNow</Link>
             <img src={isNavVisible?close:bars} alt="bars" onClick={navBarOpener}/>
           </div>
           <nav className={classes.nav} ref={navHidden}>
               <ul>
                   <li>
-                    <Link to='/'>Top Rated</Link>
+                    <Link to='/'>Movies</Link>
                   </li>
                   <li>
-                      <Link to='/popular'>Popular</Link>
+                      <Link to='/tv-shows'>TV Shows</Link>
                   </li>
+                  {isLoggedIn && (
                   <li>
-                      <Link to='/now-playing'>Now Playing</Link>
+                    <Link to='/playlist'>Playlist</Link>
                   </li>
-                  <li>
-                    <Link to='/upcoming'>Upcoming</Link>
-                  </li>
+                  ) }
+                  {
+                    !isLoggedIn && (<li>
+                         <Link to='/signup'>Signup</Link>
+                       </li>)
+                  }
+                  {
+                    !isLoggedIn && (<li>
+                         <Link to='/login'>Login</Link>
+                       </li>)
+                  }
+                  {
+                    isLoggedIn && (<li><button onClick={logoutHandler} className={classes.logoutBtn}>Logout</button></li>)
+                  }
+                    
+                  
               </ul>
           </nav>
         </header>

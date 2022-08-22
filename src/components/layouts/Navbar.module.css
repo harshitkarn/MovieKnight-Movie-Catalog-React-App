@@ -73,3 +73,13 @@
       display: none;
     }
   }
+  .logoutBtn{
+    background-color: #0d0d0d;
+    color: #fcb8d2;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .logoutBtn:hover{
+    color: white;
+  }
